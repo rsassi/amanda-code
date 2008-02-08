@@ -1,0 +1,132 @@
+		Release Notes for amanda-2.6.0
+
+amcheckdump
+  New program written entirely in perl, it replaces 'amverify' and
+  'amveryfyrun'
+
+amcryptsimple, amgpgcrypt
+  New encryption plugins based on gpg.
+
+amserverconfig, amaddclient
+  New Initial Amanda configuration tools, these tools make assumptions,
+   please see man page.
+
+Deprecated programs
+  'amverify' and 'amveryfyrun' are deprecated -- use amcheckdump.
+  'amdd' and 'ammt' are also deprecated. If you have scripts that use
+  them, then you must rewrite them in perl using the new perl modules.
+
+Configure options
+  --disable-shared doesn't work because perl module require shared library.
+  Instead, use --with-static-binaries to build staticailly linked binaries.
+
+Path changes
+  Libraries are installed in $libdir/amanda (previously $libdir)
+  Internal programs are installed in $libexecdir/amanda (previously $libexecdir)
+  You must change your inetd/xinetd config for the new amandad path.
+  The amandates files is now $localstatedir/amanda/amandates, previously it
+  was /etc/amandates, this file must be created on all client.
+
+usetimestamps
+  It now defaults to 'yes'.
+
+Glib
+  glib is required to compile and run amanda.
+  It is free and can be downloaded form http://www.gtk.org/download/
+
+Device API
+  The Device API is a complete rewrite of all tape-access functionality.
+  To use the Device API, all devices must be specified by their full
+  name, e.g., tape:/dev/nst0.  Existing functionality is now available
+  in the tape, file, and rait devices, and a new Amazon S3 backend named
+  's3' is also available.
+
+Perl Module
+  Link directly to Amanda, to support writing Amanda applications in Perl
+  Available Modules:
+    Changer (Execute changer scripts)
+    Cmdline (Parse command line argument)
+    Config (Parse config files)
+    Device (device-api)
+    Debug (Write to debug files)
+    Logfile (Parse log files)
+    Tapefile (Parse tapelist file)
+
+local security driver (auth)
+  Allows backups of the Amanda server without any need for network
+  configuration, and similarly allows amrecover to work on the Amanda
+  server without any network configuration.
+
+make installcheck
+  Almost 200 unit tests are available, which should be run on an installed
+  copy of Amanda.  See http://wiki.zmanda.com/index.php/Testing for more
+  information.
+
+flush-threshold-dumped, flush-threshold-scheduled, taperflush
+  These three config options allow to better fill your tapes.
+  They are what was known as the taperstart/taperflush feature.
+
+
+		Release Notes for amanda-2.5.2
+
+IPv6
+
+  IPv6 support is enabled by default if your OS support it, if your OS is
+  not working correctly with IPV6, you can disable it at configure time
+  with '--without-ipv6'.
+
+readblocksize
+
+  This option is useful only if you configured amanda with a big
+  '--with-maxtapeblocksize' and your hardware can't works with big block
+  size.
+  
+
+		Release Notes for amanda-2.5.1
+
+
+usetimestamps
+
+  This new feature will record all dump with timestamp instead of datestamp,
+  it will allow to do many dump in a day and recover easily anyone of them.
+
+  If you use this features, you will not be able to downgrade to 2.5.0 or
+  earlier.
+
+  see the usetimestamps section of 'man amanda.conf'
+
+
+bsdudp/bsdtcp
+
+  These are 2 new auth, they still use bsd authentification like bsd, but
+  use less port.
+
+  bsdudp is like bsd, it use udp for connecting to client but it will use
+  only one tcp port for all data stream.
+
+  bsdtcp use tcp to connect the to client and it's the only network
+  connection use.  It doesn't have the udp packet size limit, so you can
+  have an unlimited number of DLE for a single host.
+
+amrecover use the security-api
+
+  amrecover now use the security-api, You don't need to configure an
+  amindexd and an amidxtaped services in your xinetd.
+  amindexd and amidxtaped will be launched by amandad like any other services.
+  You must do modification to your xinetd configuration and .amandahosts toi
+  allow connection to amindexd and amidxtaped.
+
+new format of xinetd.d/amanda
+
+  amandad get in arguments the list of services it can launch, you must add
+  theses services in the server_args options.
+
+new format of .amandahosts
+
+  You must append to each line the services this client can launch, the
+  default is "amdump"
+
+
+See the AUTHORIZATION section of the amanda man page and the
+docs/howto-auth.txt
+
