@@ -1,0 +1,6 @@
+amanda (2.6.1b1-1) unstable; urgency=low
+
+  * Initial debian release: This package is based on Bdale Garbee's work as
+    the official debian maintainer for amanda.
+
+ -- Zmanda <support@zmanda.com>  Wed, 26 Nov 2008 23:00:09 -0600
