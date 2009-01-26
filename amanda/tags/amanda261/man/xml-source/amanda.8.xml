@@ -1,0 +1,602 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"
+[
+  <!-- entities files to use -->
+  <!ENTITY % global_entities SYSTEM '../entities/global.entities'>
+  %global_entities;
+]>
+
+<!-- lifted from troff+man by doclifter -->
+<refentry id='amanda.8'>
+
+<refmeta>
+<refentrytitle>amanda</refentrytitle>
+<manvolnum>8</manvolnum>
+&rmi.source;
+&rmi.version;
+&rmi.manual.8;
+</refmeta>
+<refnamediv>
+<refname>amanda</refname>
+<refpurpose>The Open Source Backup Platform</refpurpose>
+</refnamediv>
+<refentryinfo>
+&author.jds;
+&author.sgw.xml;
+</refentryinfo>
+<!-- body begins here -->
+
+<refsect1><title>DESCRIPTION</title>
+<para>This manual page gives an overview of the &A; commands and
+configuration files for quick reference.</para>
+
+<!--
+ - NOTE: the comma after each citerefentry works around a bug in the docbook-to-man conversion; using &nbsp;
+ - causes problems in the docbook-to-html conversion.
+-->
+
+<refsect2><title>COMMANDS</title> <!-- a.k.a. any section 8 manpage -->
+<para>Here are all the &A; commands.  Each one has its own manual page.  See them for all the gory details.</para>
+<itemizedlist>
+<listitem>
+<citerefentry><refentrytitle>amaddclient</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amadmin</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amaespipe</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcheck</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcheckdb</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcheckdump</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcleanup</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcrypt-ossl-asym</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcrypt-ossl</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcrypt</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amcryptsimple</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amdd</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amdevcheck</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amdump</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amfetchdump</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amflush</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amgetconf</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amgpgcrypt</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amgtar</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amlabel</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>ammt</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amoverview</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amplot</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amrecover</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amreport</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amrestore</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amrmtape</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amsamba</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amserverconfig</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amservice</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amstar</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amstatus</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amtape</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amtapetype</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amtoc</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amvault</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amzfs-sendrecv</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amzfs-snapshot</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>script-email</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+</listitem>
+</itemizedlist>
+</refsect2>
+<refsect2><title>CONFIGURATION FILES</title> <!-- a.k.a. most section 5 manpages -->
+<itemizedlist>
+<listitem>
+<citerefentry><refentrytitle>amanda.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amanda-client.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>disklist</refentrytitle><manvolnum>5</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>tapelist</refentrytitle><manvolnum>5</manvolnum></citerefentry>,
+</listitem>
+</itemizedlist>
+</refsect2>
+<refsect2><title>DATA FORMATS</title> <!-- a.k.a. section 5 manpages about internal data formats -->
+<itemizedlist>
+<listitem>
+<citerefentry><refentrytitle>amanda-archive-format</refentrytitle><manvolnum>5</manvolnum></citerefentry>,
+</listitem>
+</itemizedlist>
+</refsect2>
+<refsect2><title>CONCEPTS</title> <!-- a.k.a. any section 7 manpage -->
+<itemizedlist>
+<listitem>
+<citerefentry><refentrytitle>amanda-applications</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amanda-auth</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amanda-changers</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amanda-devices</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
+</listitem>
+<listitem>
+<citerefentry><refentrytitle>amanda-scripts</refentrytitle><manvolnum>7</manvolnum></citerefentry>,
+</listitem>
+</itemizedlist>
+</refsect2>
+</refsect1>
+
+<refsect1><title>CONFIGURATION</title>
+<para>There are four user-editable files that control the behavior of &A;.
+</para>
+<para>
+The first two are &amconf; and &amclientconf;,
+the main configuration files for the server and client, respectively.
+They contain parameters to customize &A; for the site.
+</para>
+<para>
+Next is the &disklist; file, which lists hosts and disk partitions to back up.
+</para>
+<para>
+Last is the seldom-edited &tapelist;
+file, which lists tapes that are currently active.
+These files are described in more detail in the following sections.</para>
+
+<para>All files are stored in individual configuration
+directories, usually under <filename>/etc/amanda/</filename>.
+A site will often have more than
+one configuration.
+For example, it might have a
+<emphasis remap='I'>normal</emphasis>
+configuration for everyday backups and an
+<emphasis remap='I'>archive</emphasis>
+configuration for infrequent full archival backups.
+The configuration files would be stored under directories
+<filename>/etc/amanda/normal/</filename> and
+<filename>/etc/amanda/archive/</filename>, respectively.
+Part of the job of an &A; administrator is to create,
+populate and maintain these directories.</para>
+</refsect1>
+
+<refsect1><title>LOG FILES</title>
+<para>All log and database files generated by &A; go in corresponding
+directories somewhere.
+The exact location is controlled by entries in
+<citerefentry><refentrytitle>amanda.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>.
+A typical location would be under <filename>/var/adm/amanda</filename>.
+For the above example, the files might go in
+<filename>/var/adm/amanda/normal/</filename> and
+<filename>/var/adm/amanda/archive/</filename>.
+</para>
+
+<para>As log files are no longer needed (no longer contain relevant information),
+&A; cycles them out in various ways, depending on the type of file.</para>
+
+<para>Detailed information about
+<command>amdump</command>
+runs are stored in dump logs -- files named
+<emphasis remap='B'>amdump.</emphasis><emphasis remap='I'>NN</emphasis>
+where
+<emphasis remap='I'>NN</emphasis>
+is a sequence number, with 1 being the most recent file.
+<emphasis remap='B'>Amdump</emphasis>
+rotates these files each run, keeping roughly the last
+<emphasis remap='B'>tapecycle</emphasis>
+(see below)
+worth of them.</para>
+
+<para>The file used by
+<emphasis remap='B'>amreport</emphasis>
+to generate the mail summary is the trace log.  This file constitutes the "catalog"
+describing the data on the tapes written in a run.  It is named
+<emphasis remap='B'>log.</emphasis><emphasis remap='I'>YYYYMMDDHHMMSS.NN</emphasis>
+where
+<emphasis remap='I'>YYYYMMDDHHMMSS</emphasis>
+is the datestamp of the start of the
+<command>amdump</command> or <command>amflush</command>
+run and
+<emphasis remap='I'>NN</emphasis>
+is a sequence number started at 0.
+At the end of each
+<command>amdump</command>
+run,
+log files for runs whose tapes have been reused are renamed
+into a subdirectory of the main log directory (see the
+<emphasis remap='B'>logdir</emphasis>
+parameter below)
+named
+<emphasis remap='B'>oldlog</emphasis>.
+It is up to the &A; administrator to remove them from this
+directory when desired.</para>
+
+<para>Index (backup image catalogue) files older than the full dump
+matching the oldest backup image for a given client and disk
+are removed by
+<command>amdump</command>
+at the end of each run.</para>
+</refsect1>
+
+
+<refsect1><title>Using Samba</title>
+<para>For Samba access, &A; needs a file on the Samba server (which may
+or may not also be the tape server) named
+<filename>/etc/amandapass</filename>
+with share names, (clear text) passwords and (optional) domain names,
+in that order, one per line, whitespace separated.
+By default, the user used to connect to the PC is the same for all
+PC's and is compiled into &A;.
+It may be changed on a host by host basis
+by listing it first in the password field followed
+by a percent sign and then the password.
+For instance:</para>
+<programlisting>
+  //some-pc/home normalpw
+  //another-pc/disk otheruser%otherpw
+</programlisting>
+<para>With clear text passwords, this file should obviously be tightly protected.
+It only needs to be readable by the &A;-user on the Samba server.  </para>
+</refsect1>
+
+<refsect1><title>HOST &amp; DISK EXPRESSION</title>
+<para>All host and disk arguments to programs are special expressions.
+The command applies to all disks that match your arguments.
+This section describes the matcher.</para>
+
+<para>The matcher matches by word, each word is a glob expression, words
+are separated by the separator '.' for host and '/' for disk. You
+can anchor the expression at left with a '^'. You can
+anchor the expression at right with a '$'. The matcher
+is case insensitive for host but is case sensitive for disk. A match
+succeeds if all words in your expression match contiguous words in 
+the host or disk.</para>
+
+
+<variablelist remap='TP'>
+
+    <varlistentry>
+    <term>dot (.)</term> <!-- troff gets confused by a plain dot -->
+    <listitem><para>word separator for a host</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>/</term>
+    <listitem><para>word separator for a disk</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>^</term>
+    <listitem><para>anchor at left</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>$</term>
+    <listitem><para>anchor at right</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>?</term>
+    <listitem><para>match exactly one character except the separator</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>*</term>
+    <listitem><para>match zero or more characters except the separator</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>**</term>
+    <listitem><para>match zero or more characters including the separator</para></listitem>
+    </varlistentry>
+
+</variablelist>
+
+<para>Some examples:</para>
+
+<variablelist remap='TP'>
+    <varlistentry>
+    <term>hosta</term>
+    <listitem><para>
+    Will match <filename>hosta</filename>, <filename>foo.hosta.org</filename>, and
+    <filename>hoSTA.dOMAIna.ORG</filename> but not <filename>hostb</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>host</term>
+    <listitem><para>
+    Will match <filename>host</filename> but not <filename>hosta</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>host?</term>
+    <listitem><para>
+    Will match <filename>hosta</filename> and <filename>hostb</filename>, but
+    not <filename>host</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>ho*na</term>
+    <listitem><para>
+    Will match <filename>hoina</filename>
+    but not <filename>ho.aina.org</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>ho**na</term>
+    <listitem><para>
+    Will match <filename>hoina</filename>
+    and <filename>ho.aina.org</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>^hosta</term>
+    <listitem><para>
+    Will match <filename>hosta</filename>
+    but not <filename>foo.hosta.org</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>sda*</term>
+    <listitem><para>
+    Will match <filename>/dev/sda1</filename>
+    and <filename>/dev/sda12</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>/opt</term>
+    <listitem><para>
+    Will match the disk <filename>opt</filename>
+    but not the host <filename>opt</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>(note dots:) .opt.</term> <!-- nroff gets confused by dots -->
+    <listitem><para>
+    Will match the host <filename>opt</filename>
+    but not the disk <filename>opt</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>/</term>
+    <listitem><para>
+    Will match the disk <filename>/</filename>
+    but no other disk.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>/usr</term>
+    <listitem><para>
+    Will match the disks <filename>/usr</filename>
+    and <filename>/usr/local</filename>.
+    </para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>/usr$</term>
+    <listitem><para>
+    Will match the disks <filename>/usr</filename>
+    but not <filename>/usr/local</filename>.
+    </para></listitem>
+    </varlistentry>
+
+</variablelist>
+
+
+</refsect1>
+
+<refsect1><title>DATESTAMP EXPRESSION</title>
+<para>A
+<emphasis remap='I'>datestamp</emphasis>
+expression is a range expression where we only match the prefix.
+Leading ^ is removed. Trailing $ forces an exact match.</para>
+
+<variablelist remap="TP">
+
+    <varlistentry>
+    <term>20001212-14</term>
+    <listitem><para>match all dates beginning with 20001212, 20001213 or 20001214</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>20001212-4</term>
+    <listitem><para>same as previous</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>20001212-24</term>
+    <listitem><para>match all dates between 20001212 and 20001224</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>2000121</term>
+    <listitem><para>match all dates that start with 2000121 (20001210-20001219)</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>2</term>
+    <listitem><para>match all dates that start with 2 (20000101-29991231)</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>2000-10</term>
+    <listitem><para>match all dates between 20000101-20101231</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>200010$</term>
+    <listitem><para>match only 200010</para></listitem>
+    </varlistentry>
+
+</variablelist>
+
+</refsect1>
+
+<refsect1><title>DUMP SPECIFICATIONS</title> <para>A dump
+specification selects one or more dumps.  It has the form <emphasis
+remap="I">[host][:disk][@datestamp]</emphasis>, where each component
+is a pattern as described above.  If a component is missing, it
+is treated as a wildcard.  The characters ':', '@', and '\' may be
+escaped within any component by preceding them with a '\'.</para>
+
+<para>Some examples:</para>
+
+<variablelist remap='TP'>
+    <varlistentry>
+    <term>client17</term>
+    <listitem><para>all dumps of client17</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>@20080615</term>
+    <listitem><para>All dumps on with datestamps matching 20080615</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>webserver:/var/www</term>
+    <listitem><para>All dumps of /var/www on host webserver</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>webserver:/var/www@200806150317</term>
+    <listitem><para>The dump of webserver with datestamp 200806150317</para></listitem>
+    </varlistentry>
+
+    <varlistentry>
+    <term>:/var/www</term>
+    <listitem><para>All dumps of /var/www on any host</para></listitem>
+    </varlistentry>
+</variablelist>
+
+
+</refsect1>
+
+<refsect1><title>CONFIGURATION OVERRIDE</title>
+<para>Most commands allow the override of specific
+configuration options on the command line, using the <arg
+choice="plain">-o</arg> option.  This option has the form <arg
+choice="plain">-o</arg><replaceable>name</replaceable>=<replaceable>value</replaceable>.
+An optional space is allowed after the <arg choice="plain">-o</arg>.
+Each configuration option should be specified in a separate
+command-line option.</para>
+
+<para>For global options, <replaceable>name</replaceable> is simply the name of the option, e.g.,
+<programlisting>
+amdump -oruntapes=2
+</programlisting>
+For options in a named section of the configuration, <replaceable>name</replaceable> has the
+form <replaceable>SECTION</replaceable>:<replaceable>section_name</replaceable>:<replaceable>name</replaceable>,
+where <replaceable>SECTION</replaceable> is one of TAPETYPE, DUMPTYPE, HOLDINGDISK, or INTERFACE, and
+<replaceable>section_name</replaceable> is the name of the tapetype, dumptype, holdingdisk, or interface.
+Examples:
+<programlisting>
+amdump -o TAPETYPE:HP-DAT:length=2000m
+amdump -o DUMPTYPE:no-compress:compress="server fast"
+amdump -o HOLDINGDISK:hd1:use="-100 mb"
+amdump -o INTERFACE:local:use="2000 kbps"
+</programlisting>
+</para>
+
+<para>When overriding device properties, one must carefully quote the
+  command line to simulate the syntax of real configuration files. The
+  following example should serve as a guide:
+<programlisting>
+amdump -o 'device-property="PROPERTY_MAX_VOLUME_USAGE" "100000"'
+</programlisting></para>
+
+<para>Note that configuration overrides are not effective for tape
+changers, which supply a tapedev based on their own configuration.  In order to
+override <emphasis remap="I">tapedev</emphasis>, you must also disable any changer:
+<programlisting>
+amdump -otapedev=/dev/nst1 -otpchanger=''
+</programlisting>
+</para>
+
+</refsect1>
+
+</refentry>
+

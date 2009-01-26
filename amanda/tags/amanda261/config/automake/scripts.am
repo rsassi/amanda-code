@@ -1,0 +1,167 @@
+# vim:ft=automake
+# Copyright (c) 2005-2008 Zmanda Inc.  All Rights Reserved.
+# 
+# This library is free software; you can redistribute it and/or modify it
+# under the terms of the GNU Lesser General Public License version 2.1 as 
+# published by the Free Software Foundation.
+# 
+# This library is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY
+# or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU Lesser General Public
+# License for more details.
+# 
+# You should have received a copy of the GNU Lesser General Public License
+# along with this library; if not, write to the Free Software Foundation,
+# Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA.
+# 
+# Contact information: Zmanda Inc., 465 S Mathlida Ave, Suite 300
+# Sunnyvale, CA 94086, USA, or: http://www.zmanda.com
+
+# SYNOPSIS:
+#
+# Automake magic to handle the various tasks of building scripts.  Scripts can
+# be built down to extensionless executables (e.g., foo.pl -> foo), or to 
+# files with the usual extension (foo-lib.sh.in -> foo.sh).
+#
+# Files which support it are syntax-checked when the user invokes 'make check'.
+#
+# All *target* filenames must be listed in SCRIPTS_SHELL, SCRIPTS_PERL, and 
+# SCRIPTS_AWK to support 'make check', 'make dist', and 'make distclean'. No
+# files which are not substituted by config.status should be included in
+# SCRIPTS_PERL, SCRIPTS_SHELL, or SCRIPTS_AWK.  If non-generated files are listed
+# for installation, then Automake will figure out that they should be distributed;
+# otherwise, include them in EXTRA_DIST.
+#
+# USAGE:
+#
+#   include $(top_srcdir)/config/automake/vars.am
+#   include $(top_srcdir)/config/automake/scripts.am
+#   ...
+#   SCRIPTS_PERL = fooscript barscript perl-lib.pl perlmod.pm
+#   SCRIPTS_SHELL = shell1 shell2 sh-lib.sh
+#   SCRIPTS_AWK = talk balk chalk awk-lib.awk
+#   sbin_SCRIPTS = not-subbed
+#   EXTRA_DIST = util-script.pl
+#
+# with the corresponding files in the repository:
+#
+#   fooscript.pl barscript.pl perl-lib.pl.in perlmod.pm.in
+#   shell1.sh shell2.sh sh-lib.sh.in
+#   talk.awk balk.awk chalk.awk awk-lib.awk.in
+#   not-subbed util-script.pl
+#
+# by default, all shell and perl scripts are syntax checked.  If this is
+# a problem (for example, perl scripts depending on Amanda extension 
+# modules), then assign to CHECK_{PERL,SHELL} the list of files you wish
+# to be checked (which can be empty).
+#
+# To add extra flags to the perl checks (e.g., to add new -I flags), set
+# CHECK_PERL_FLAGS.
+
+# Implementation note:
+#
+# This file uses config.status to substitute @foo@ in those scripts while
+# converting them. It also adds the executable bits (a+x) to extensionless
+# files.  The substitution works even though the files are not listed in 
+# configure.in
+
+# Perl
+%: %.pl $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+	chmod a+x $@
+	@if test -f $(top_builddir)/perl/.libs/libCmdline.so -o -f $(top_builddir)/perl/libCmdline.so; then \
+		grep -v '^use lib' $@ > $@.nouselib; \
+		$(PERL) $(CHECK_PERL_FLAGS) -I$(top_builddir)/perl -I$(top_builddir)/perl/.libs -I$(top_srcdir)/perl -c -w -T $@.nouselib || exit 1; \
+		rm $@.nouselib; \
+	fi
+
+%.pl: %.pl.in $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+
+%.pm: %.pm.in $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+
+# Shell
+%: %.sh $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+	chmod a+x $@
+
+%.sh: %.sh.in $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+
+# Awk
+%: %.awk $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+	chmod a+x $@
+
+%.awk: %.awk.in $(top_builddir)/config.status
+	$(top_builddir)/config.status --file=$@:$<
+
+# config.status leaves config.log files around
+CLEANFILES += config.log
+
+# and we'll need to clean up our generated files for distclean
+DISTCLEANFILES += $(SCRIPTS_SHELL) $(SCRIPTS_PERL) $(SCRIPTS_AWK) $(SCRIPTS_INCLUDE)
+
+# syntax-check perl scripts on 'make check'
+check-perl: $(CHECK_PERL)
+	@CHECK_PERL="$(CHECK_PERL)"; \
+	if test -f $(top_builddir)/perl/.libs/libCmdline.so -o -f $(top_builddir)/perl/libCmdline.so; then \
+		if test -n "$(PERL)"; then \
+			for perlobj in $$CHECK_PERL; do \
+				grep -v '^use lib' $$perlobj > $$perlobj.nouselib; \
+				$(PERL) $(CHECK_PERL_FLAGS) -I$(top_builddir)/perl -I$(top_builddir)/perl/.libs -I$(top_srcdir)/perl -c -w -T $$perlobj.nouselib || exit 1; \
+				rm $$perlobj.nouselib; \
+			done; \
+		fi \
+	fi
+check-local: check-perl
+
+# syntax-check perl scripts on 'make installcheck'
+installcheck-perl: $(CHECK_PERL)
+	@CHECK_PERL="$(CHECK_PERL)"; \
+	if test -n "$(PERL)"; then \
+		for perlobj in $$CHECK_PERL; do \
+			$(PERL) $(CHECK_PERL_FLAGS) -c -w -T $$perlobj || exit 1; \
+		done; \
+	fi
+installcheck-local: installcheck-perl
+
+# syntax-check shell scripts on 'make check'
+CHECK_SHELL = $(SCRIPTS_SHELL)
+check-shell: $(CHECK_SHELL)
+	@CHECK_SHELL="$(CHECK_SHELL)"; \
+	if test -n "$$CHECK_SHELL"; then \
+		if test -n "$(BASH)"; then \
+			for shobj in $$CHECK_SHELL; do \
+				if $(BASH) -n $$shobj; then \
+					echo "$$shobj syntax OK"; \
+				else \
+					echo "$$shobj syntax error"; \
+					exit 1; \
+				fi; \
+			done; \
+		else \
+			echo "No 'bash' available -- cannot syntax-check shell scripts"; \
+		fi; \
+	fi
+check-local: check-shell
+
+# make sure that the sources for all shell and perl scripts get included
+# in the distribution
+dist-scripts:
+	SCRIPTS_PERL="$(SCRIPTS_PERL)"; SCRIPTS_SHELL="$(SCRIPTS_SHELL)"; SCRIPTS_AWK="$(SCRIPTS_AWK)"; \
+	for script in $$SCRIPTS_PERL; do \
+		test -f $(srcdir)/$${script}.pl && { cp -p $(srcdir)/$${script}.pl $(distdir)/ || exit 1; } \
+	done; \
+	for script in $$SCRIPTS_SHELL; do \
+		test -f $(srcdir)/$${script}.sh && { cp -p $(srcdir)/$${script}.sh $(distdir)/ || exit 1; } \
+	done; \
+	for script in $$SCRIPTS_AWK; do \
+		test -f $(srcdir)/$${script}.awk && { cp -p $(srcdir)/$${script}.awk $(distdir)/ || exit 1; } \
+	done; \
+	for script in $$SCRIPTS_SHELL $$SCRIPTS_PERL $$SCRIPTS_AWK; do \
+		test -f $(srcdir)/$${script}.in && { cp -p $(srcdir)/$${script}.in $(distdir)/ || exit 1; } \
+	done; \
+	true
+dist-hook: dist-scripts
