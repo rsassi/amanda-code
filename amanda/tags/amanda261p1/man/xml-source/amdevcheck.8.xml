@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"
+[
+  <!-- entities files to use -->
+  <!ENTITY % global_entities SYSTEM '../entities/global.entities'>
+  %global_entities;
+]>
+
+<refentry id='amdevcheck.8'>
+
+  <refmeta>
+    <refentrytitle>amdevcheck</refentrytitle>
+    <manvolnum>8</manvolnum>
+    &rmi.source;
+    &rmi.version;
+    &rmi.manual.8;
+  </refmeta>
+  <refnamediv>
+    <refname>amdevcheck</refname>
+    <refpurpose>Validate an &A; device and volume.</refpurpose>
+  </refnamediv>
+  <refentryinfo>
+    &author.ian;
+  </refentryinfo>
+  <!-- body begins here -->
+  <refsynopsisdiv>
+    <cmdsynopsis>
+      <command>amdevcheck</command>
+      <arg choice='plain'><replaceable>config</replaceable></arg>
+      <group choice='opt'>
+        <arg choice='plain'><replaceable>device name</replaceable></arg>
+      </group>
+      <arg choice='plain' rep='repeat'><group><arg choice='plain'>-o
+      </arg><replaceable>configoption</replaceable></group></arg>
+    </cmdsynopsis>
+  </refsynopsisdiv>
+
+  <refsect1><title>DESCRIPTION</title>
+    <para>
+      <emphasis remap='B'>Amdevcheck</emphasis> provides a way to check that a
+      particular &A; device is accessible, whether or not it contains a volume,
+      and whether or not that volume is labeled. Some devices can't distinguish
+      between all of these cases; a missing volume and an unlabeled volume might
+      generate the same error code, for example. In those cases, this tool
+      reports all possible causes of the error.
+    </para>
+    
+    <para>See the
+      <citerefentry><refentrytitle>amanda</refentrytitle><manvolnum>8</manvolnum></citerefentry>
+      man page for more details about &A;.  See
+      <citerefentry><refentrytitle>amanda-devices</refentrytitle><manvolnum>7</manvolnum></citerefentry>
+      for more information on devices.
+  </para>
+  </refsect1>
+
+  <refsect1><title>OPTIONS</title>
+    <variablelist remap='TP'>
+      <varlistentry>
+        <term><replaceable>config</replaceable></term>
+        <listitem>
+          <para>
+            &A; configuration to use. Note that <command>amdevcheck</command>
+            ignores any tape changer configuration.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><replaceable> device</replaceable></term>
+        <listitem>
+          <para>
+            &A; device to use. This option overrides any tapedev configuration
+            specified in the configuration file.
+          </para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><emphasis remap='B'>-o</emphasis> <replaceable>clientconfigoption</replaceable></term>
+        <listitem>
+          <para>See the "<emphasis remap='B'>CONFIGURATION OVERRIDE</emphasis>"
+            section in
+            <citerefentry><refentrytitle>amanda</refentrytitle><manvolnum>8</manvolnum></citerefentry>.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+  </refsect1>
+
+  <refsect1><title>OUTPUT</title>
+    <emphasis remap='B'>Amdevcheck</emphasis> returns one or more of the following lines. If multiple lines appear, then at least one, but not necessarily all of
+the messages apply.  This situation can occur when working with hardware or
+operating systems which cannot distinguish, for example, between a
+malfunctioning drive and a functional but unloaded drive.
+<!-- .RS -->
+      <variablelist remap='TP'>
+        <varlistentry>
+   	  <term><emphasis remap='B'>SUCCESS</emphasis></term>
+	    <listitem><para>A tape is ready.</para></listitem>
+	</varlistentry>
+        <varlistentry>
+	  <term><emphasis remap='B'>DEVICE_ERROR</emphasis></term>
+	    <listitem><para>A device error has occurred.</para></listitem>
+	</varlistentry>
+        <varlistentry>
+          <term><emphasis remap='B'>DEVICE_BUSY</emphasis></term>
+	    <listitem><para>The device is busy.</para></listitem>
+	</varlistentry>
+        <varlistentry>
+          <term><emphasis remap='B'>VOLUME_MISSING</emphasis></term>
+	    <listitem><para>No tape is loaded in the drive.</para></listitem>
+	</varlistentry>
+        <varlistentry>
+          <term><emphasis remap='B'>VOLUME_UNLABELED</emphasis></term>
+	    <listitem><para>The tape in the drive is unlabeled.</para></listitem>
+	</varlistentry>
+        <varlistentry>
+	  <term><emphasis remap='B'>VOLUME_ERROR</emphasis></term>
+	    <listitem><para>A volume error has occurred.</para></listitem>
+	</varlistentry>
+        <varlistentry>
+	  <term><emphasis remap='B'>MESSAGE</emphasis> <emphasis remap='I'>text</emphasis></term>
+	    <listitem><para>Where text provides a human-readable description of the problem.</para></listitem>
+	</varlistentry>
+       </variablelist>
+  </refsect1>
+
+  <refsect1><title>SEE ALSO</title>
+    <para>
+      <citerefentry><refentrytitle>amanda</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+      <citerefentry><refentrytitle>ammt</refentrytitle><manvolnum>8</manvolnum></citerefentry>,
+      <ulink url="http://wiki.zmanda.com"/>
+    </para>
+  </refsect1>
+</refentry>
