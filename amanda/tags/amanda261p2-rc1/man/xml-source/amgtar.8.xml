@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE refentry PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
+                   "http://www.oasis-open.org/docbook/xml/4.1.2/docbookx.dtd"
+[
+  <!-- entities files to use -->
+  <!ENTITY % global_entities SYSTEM '../entities/global.entities'>
+  %global_entities;
+]>
+
+<refentry id='amgtar.8'>
+
+<refmeta>
+<refentrytitle>amgtar</refentrytitle>
+<manvolnum>8</manvolnum>
+&rmi.source;
+&rmi.version;
+&rmi.manual.8;
+</refmeta>
+<refnamediv>
+<refname>amgtar</refname>
+<refpurpose>Amanda Application to interface with GNU Tar</refpurpose>
+</refnamediv>
+<refentryinfo>
+&author.jlm;
+&author.dustin;
+</refentryinfo>
+<!-- body begins here -->
+
+<refsect1><title>DESCRIPTION</title>
+
+<para>Amgtar is an &A; Application API script.  It should not be run
+by users directly.  It uses GNU Tar to backup and restore data.</para>
+
+</refsect1>
+
+<refsect1><title>PROPERTIES</title>
+
+<para>This section lists the properties that control amgtar's functionality.
+See <citerefentry><refentrytitle>amanda-applications</refentrytitle><manvolnum>7</manvolnum></citerefentry>
+for information on application properties and how they are configured.</para>
+
+<!-- PLEASE KEEP THIS LIST IN ALPHABETICAL ORDER -->
+<variablelist>
+ <!-- ==== -->
+ <varlistentry><term>ATIME-PRESERVE</term><listitem>
+If "YES" (the default), amgtar use the <emphasis>--atime-preserve=system</emphasis> option of gnutar to not update the atime of all files accessed; if "NO", gnutar will updates the atime for all files accessed. This property works only if you have gnutar 1.15.90 or newer, if not, you must set ATIME_PRESERVE to "NO".
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>CHECK-DEVICE</term><listitem>
+If "YES" (the default), amgtar checks that the device number doesn't change for each file. If "NO", changes in device number are ignored.  To ignore device numbers, tar must support the <emphasis>--no-check-device</emphasis> option (gnutar 1.19.90 and newer). This option is needed for some filesystems and devices on which device numbers change frequently, such as LVM or FiberChannel.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>DIRECTORY</term><listitem>
+If set, gnutar will backup from that directory instead of the <emphasis>diskdevice</emphasis> set by the DLE.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>GNUTAR-LISTDIR</term><listitem>
+The directory where gnutar stores the database it uses to generate incremental dumps.  The default is set when &A; is built.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>GNUTAR-PATH</term><listitem>
+The path to the gnutar binary.  The default is set when &A; is built.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>ONE-FILE-SYSTEM</term><listitem>
+If "YES" (the default), do not allow gnutar to cross filesystem boundaries. If "NO", gnutar will cross filesystem boundaries.  This corresponds to the <emphasis>--one-filesystem</emphasis> option of gnutar.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>TAR-BLOCKSIZE</term><listitem>
+Block size of Nx512 bytes (default N=20).  This corresponds to the <emphasis>--blocking-factor</emphasis> option of gnutar.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>SPARSE</term><listitem>
+If "YES" (the default), gnutar will store sparse files efficiently. If "NO", then the <emphasis>--sparse</emphasis> option is not given to gnutar, and it will not try to detect sparse files.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>EXIT-HANDLING</term><listitem>
+List which exit status of gtar are good or bad. eg. "1=GOOD 2=BAD", exit status of 1 will produce a good backup, exit status of 2 will give an error.
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>NORMAL</term><listitem>
+List all regex (POSIX Extended Regular Expression syntax) that are normal output from gtar. These output are in the "FAILED DUMP DETAILS" section of the email report if the dump result is STRANGE or FAILED. Default values:
+<programlisting>
+  "^could not open conf file"
+  "^Elapsed time:"
+  "^Throughput"
+  ": socket ignored$"
+  ": File .* shrunk by [0-9][0-9]* bytes, padding with zeros"
+  ": Cannot add file .*: No such file or directory$"
+  ": Error exit delayed from previous errors"
+</programlisting>
+<para>To treat one of these default patterns differently, specify it explicitly in a different property.</para>
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>IGNORE</term><listitem>
+List all regex (POSIX Extended Regular Expression syntax) that amanda ignore. These output are never in the email report. Default values:
+<programlisting>
+  ": Directory is new$"
+  ": Directory has been renamed"
+</programlisting>
+<para>To treat one of these default patterns differently, specify it explicitly in a different property.</para>
+</listitem></varlistentry>
+ <!-- ==== -->
+ <varlistentry><term>STRANGE</term><listitem>
+List all regex (POSIX Extended Regular Expression syntax) that are strange output from gtar. All gtar output that doesn't match a normal or ignore regex are strange by default. The result of the dump is STRANGE if gtar produce a strange output. These output are in the "FAILED DUMP DETAILS" section of the email report.
+</listitem></varlistentry>
+</variablelist>
+
+</refsect1>
+
+<refsect1><title>EXAMPLE</title>
+<programlisting>
+  define application-tool app_amgtar {
+    property "ATIME-PRESERVE" "NO"
+    property "CHECK-DEVICE" "YES"
+    property "GNUTAR-LISTDIR" "
+    property "GNUTAR-PATH" "/bin/tar"
+    property "ONE-FILE-SYSTEM" "YES"
+    property "TAR_BLOCKSIZE" "20"
+    property "SPARSE" "YES"
+    property "EXIT-HANDLING" "1=GOOD 2=BAD"
+    # change a default NORMAL regex to a STRANGE regex.
+    property "STRANGE" ": socket ignored$"
+    # add three new IGNORE regex
+    property "IGNORE" ": Directory is new$"
+    property append "IGNORE" ": Directory has been renamed"
+    property append "IGNORE" "file changed as we read it$"
+  }
+</programlisting>
+</refsect1>
+
+<refsect1><title>SEE ALSO</title>
+<para>
+<citerefentry><refentrytitle>amanda.conf</refentrytitle><manvolnum>5</manvolnum></citerefentry>,
+<citerefentry><refentrytitle>amanda-applications</refentrytitle><manvolnum>7</manvolnum></citerefentry>
+</para>
+
+</refsect1>
+</refentry>
