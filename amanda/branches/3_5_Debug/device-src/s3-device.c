@@ -1904,6 +1904,7 @@ s3_device_set_transition_to_glacier_fn(Device *p_self, DevicePropertyBase *base,
     S3Device *self = S3_DEVICE(p_self);
 
     self->transition_to_glacier = g_value_get_uint64(val);
+    g_debug("[GLACIERDEBUG] Setting SELF TRANSITION_TO_GLACIER = %d", self->transition_to_glacier);
 
     return device_simple_property_set_fn(p_self, base, val, surety, source);
 }
@@ -2870,6 +2871,8 @@ make_bucket(
     s3_error_code_t s3_error_code;
     CURLcode curl_code;
 
+    g_debug("[GLACIERDEBUG] MAKE_BUCKET Creating S3 bucket.");
+
     if (self->bucket_made) {
 	return TRUE;
     }
@@ -3773,6 +3776,10 @@ s3_device_set_no_reuse(
     char *lifecycle_datestamp = NULL;
     time_t t;
     struct tm tmp;
+    gboolean retStat;
+
+    g_debug("[GLACIERDEBUG] Inside s3_device_set_no_reuse");
+    g_debug("[GLACIERDEBUG]  SELF TRANSITION_TO_GLACIER = %d", self->transition_to_glacier);
 
     if (self->transition_to_glacier < 0) {
 	return TRUE;
@@ -3784,10 +3791,13 @@ s3_device_set_no_reuse(
 	datestamp = dself->volume_time;
     }
 
-    if (device_in_error(self)) return dself->status;
-
+    if (device_in_error(self)) {
+    	g_debug("[GLACIERDEBUG] Device in error.");
+    	return dself->status;
+    }
     if (!setup_handle(self)) {
         /* setup_handle already set our error message */
+    	g_debug("[GLACIERDEBUG] Error while setting up handle.");
 	return dself->status;
     }
     reset_thread(self);
@@ -3842,8 +3852,9 @@ s3_device_set_no_reuse(
     rule->transition->storage_class = g_strdup("GLACIER");
 
     lifecycle = g_slist_append(lifecycle, rule);
-    s3_put_lifecycle(self->s3t[0].s3, self->bucket, lifecycle);
-
+    g_debug("[GLACIERDEBUG] Created lifecycle rule after setting device to no_reuse. And calling s3_put_lifecycle.");
+    retStat = s3_put_lifecycle(self->s3t[0].s3, self->bucket, lifecycle);
+    g_debug("[GLACIERDEBUG] Calling s3_put_lifecycle finished with Status = %d", retStat);
     return TRUE;
 }
 
