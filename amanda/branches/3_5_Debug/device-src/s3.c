@@ -4984,6 +4984,8 @@ s3_put_lifecycle(
 			     NULL, NULL, NULL,
                              NULL, NULL, result_handling, FALSE);
 
+    g_debug("[GLACIERDEBUG] Perform Request failed.");
+
     return result == S3_RESULT_OK;
 
 }
