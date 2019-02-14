@@ -1893,7 +1893,7 @@ s3_device_set_read_from_glacier_fn(Device *p_self, DevicePropertyBase *base,
     S3Device *self = S3_DEVICE(p_self);
 
     self->read_from_glacier = g_value_get_boolean(val);
-
+    g_debug("[GLACIERDEBUG] Setting Reading from Glacier = %d", self->read_from_glacier);
     return device_simple_property_set_fn(p_self, base, val, surety, source);
 }
 
